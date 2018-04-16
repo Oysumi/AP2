@@ -120,5 +120,5 @@ void afficher_pile (pile P)
 	      (est_vide (depiler(P)) ? "" : ")\n(")) ;
       P = depiler (P) ;
     }
-  printf (")") ;
+  printf (")\n\n") ;
 }

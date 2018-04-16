@@ -23,7 +23,7 @@ bool par_ouvrant(char c){
 /* Question 3 : fonction qui test qu'un caractère est un signe de parenthesage fermant */
 bool par_fermant(char c){
 
-	if ( (c == 42) || (c == 93) || (c == 125) ){
+	if ( (c == 41) || (c == 93) || (c == 125) ){
 		return true ;
 	}
 
@@ -33,7 +33,7 @@ bool par_fermant(char c){
 /* Question 4 : fonction qui test si deux caractères forment un bon parenthesage */
 bool car_corresp(char c, char d){
 
-	if ( (c == 41) && (d == 43) ){
+	if ( (c == 40) && (d == 41) ){
 		return true ;
 	}
 
@@ -51,23 +51,47 @@ bool car_corresp(char c, char d){
 /* Question 5 : fonction qui test si une chaine de caractères est bien parenthésée */
 bool parenthese(pile P){
 
-	if ( est_vide(P) ){
-		return false ;
+	pile M ;
+	M = pile_vide() ;
+
+	while ( !est_vide(P) ){
+
+		if ( par_ouvrant ( sommet(P) )){
+			M = empiler ( sommet(P) , M ) ;
+		}
+
+		if ( par_fermant ( sommet(P) )){
+			if ( !car_corresp( sommet(M), sommet(P) ) ) {
+				return false ;
+			}
+			else{
+				M = depiler (M) ;
+			}
+		}
+
+		P = depiler( P );
+
 	}
 
-	if ( par_ouvrant( sommet(P) ) ){
-
-	}
+	return true ;
 }
 
 int main(void){
-	char c = '{' ;
-	char d = '}' ;
-	if ( car_corresp(c, d) )
-		printf("C'est bon.\n") ;
-	else
-		printf("Nope.\n") ;
 	
+	pile P ;
+
+	P = empiler( '{', empiler( 'a', empiler( 'b', empiler( ')', pile_vide() ) ) ) ) ;
+	afficher_pile(P) ;
+
+	if ( parenthese(P) ){
+		printf("C'est bon.\n");
+	}
+	else{
+		printf("C'est pas bon.\n") ;
+	}
 
 	return 1 ;
+
 }
+
+
